@@ -1,4 +1,6 @@
-class Node:
+class Node:  # класс ну грубо говоря точки с напрваленым графом
+    '''Класс точки с графом, где name это имя точки, а access это словарь с графами оформленый по принципу
+    название точки: стоимость графа, а так же методом __repr__ для улудшения отображения'''
     def __init__(self, name, access):
         self.name = name
         self.access = access
@@ -6,20 +8,29 @@ class Node:
     def __repr__(self):
         return f'Node with name:{self.name}, and access: {self.access}'
 
-#идея попробуй реализовать граф где все как в связном списке
 
-class Graff:
+# идея попробуй реализовать граф где все как в связном списке
+
+class MapGraff:
+    """
+    Карта графов и точек хранит в себе экземпляры Node после создания, сам их собственно создает, по необходимости
+    обновляет доступы графов
+    """
     def __init__(self):
+        """data это список всех точек и графов, names пространство имен точек"""
         self.data = []
         self.names = []
 
-    def is_empty(self):
-        if len(self.data) == 0:
-            return True
-        else:
-            return False
+    # def is_empty(self):
+    #     if len(self.data) == 0:
+    #         return True
+    #     else:
+    #         return False
 
     def append(self, name, access={}):
+        """метод добавления графов, в случае создания графа с направлением в еще не существующую точку создает ее, по
+        моей глупости делает двухнаправленные графы
+        """
         new_node = Node(name, access)
         self.data.append(new_node)
         self.names.append(name)
@@ -56,11 +67,13 @@ class Graff:
     # #                self.data = new_node
 
     def get_node(self, name):
+        """метод получения экземпляра нода с именем и доступами"""
         for i in self.data:
             if i.name == name:
                 print(i)
 
     def update(self, name, access):
+        """метод для добавления в существующие точки доступов"""
         for i in self.data:
             if i.name == name:
                 if len(i.access) == 0:
@@ -68,16 +81,17 @@ class Graff:
                 else:
                     i.access.update(access)
 
-    def check(self, target, name_serching):
+    def check(self, a, b):
+        """проверка на наличие доступа из точки A в точку B """
         for i in self.data:
-            if i.name == target:
-                if name_serching in i.access.keys():
+            if i.name == a:
+                if b in i.access.keys():
                     return True
                 else:
                     return False
 
 
-gr = Graff()
+gr = MapGraff()
 gr.append("first", )
 print(gr.data)
 gr.append("second", {"first": 1})
